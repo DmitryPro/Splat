@@ -53,10 +53,11 @@ public class TableWorker implements AccountService{
         try {
             addStatement.setInt(1, id);
             addStatement.setLong(2, value);
-            addStatement.execute();
+            addStatement.executeUpdate();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
     }
 }
+
