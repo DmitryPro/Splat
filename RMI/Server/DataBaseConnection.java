@@ -1,4 +1,4 @@
-package Splat.RMI.Server;
+package RMI.Server;
 
 import com.mysql.fabric.jdbc.FabricMySQLDriver;
 
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 Здесь происходит подключение к БД
  */
 
-public class DBWorker {
+public class DataBaseConnection {
 
     private static final String URL = "jdbc:mysql://localhost:3306/DataBase";
     private static final String USER = "root";
@@ -19,7 +19,7 @@ public class DBWorker {
    // private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
     private Connection dbConnection = null;
 
-    public DBWorker(){
+    public DataBaseConnection(){
         try {
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
@@ -29,27 +29,6 @@ public class DBWorker {
         }
     }
 
-    /*
-    private void loadClass() {
-        try {
-            Class.forName(DB_DRIVER);
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Can't load jdbc mysql driver");
-            e.printStackTrace();
-        }
-    }
-
-    private void makeConnection() {
-        try {
-            dbConnection = DriverManager.getConnection(URL,USER,PASSWORD);
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-     */
     public Connection getDbConnection() {
         return dbConnection;
     }

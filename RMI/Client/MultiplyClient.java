@@ -1,13 +1,13 @@
-package Splat.RMI.Client;
+package RMI.Client;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Random;
 
 /**
- * Created by marsik on 21.06.15.
+ * Created by marsik on 22.06.15.
  */
-public class MultiplуClient  {
+public class MultiplyClient {
 
     public static final String BINDING_NAME = "sample/Service";
 
@@ -20,8 +20,6 @@ public class MultiplуClient  {
                 threads[i] = new Thread(new AddThread());
         }
         startThreads(threads);
-
-
     }
 
     private static void startThreads(Thread[] threads){

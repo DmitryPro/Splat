@@ -1,4 +1,4 @@
-package Splat.RMI.Server;
+package RMI.Server;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 
@@ -12,10 +12,10 @@ import java.util.concurrent.ConcurrentMap;
 Здесь мы реализуем чистку кэша, и добавление в него данных
 
  */
-public class CacheWorker {
+public class CacheManager {
     private ConcurrentMap<Integer, Long> cache;
 
-    CacheWorker(){
+    CacheManager(){
         cache = new ConcurrentLinkedHashMap.Builder<Integer, Long>()
                 .maximumWeightedCapacity(1000)
                 .build();

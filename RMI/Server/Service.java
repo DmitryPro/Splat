@@ -1,4 +1,4 @@
-package Splat.RMI.Server;
+package RMI.Server;
 
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
@@ -8,14 +8,12 @@ import java.rmi.server.UnicastRemoteObject;
 
 /*
 Собственно сам сервер.
-Здесь мы реализуем многопоточность и отсылку ответа клиенту.
  */
 
 public class Service implements AccountService {
 
     public static final String BINDING_NAME = "sample/HelloService";
-    TableWorker tb = new TableWorker();
-    //CacheWorker cash = new CacheWorker();
+    DataBaseReq tb = new DataBaseReq();
 
     public synchronized Long getAmount(Integer id) {
         Long ans = tb.getAmount(id);

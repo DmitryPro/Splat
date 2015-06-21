@@ -1,4 +1,4 @@
-package Splat.RMI.Client;
+package RMI.Client;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
