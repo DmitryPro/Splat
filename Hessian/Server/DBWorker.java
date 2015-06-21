@@ -13,6 +13,7 @@ public class DBWorker {
 
     private void loadClass() {
         try {
+            //Driver load
             Class.forName(DB_DRIVER);
         }
         catch (ClassNotFoundException e) {
