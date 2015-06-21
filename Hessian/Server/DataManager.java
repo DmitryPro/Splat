@@ -22,18 +22,39 @@ public class DataManager extends HessianServlet implements AccountService{
                 }
             });
 
+    private static int getCount = 0;
+    private static int addCount = 0;
+
+    public static int getAddCount() {
+        return addCount;
+    }
+
+    public static int getGetCount() {
+        return getCount;
+    }
+
+    public static void clearStats() {
+        addCount = 0;
+        getCount = 0;
+    }
+
     private TableWorker tableWorker = new TableWorker();
 
     public Long getAmount(Integer id) {
+        getCount++;
         return loadingCache.getUnchecked(id);
     }
 
-    public void addAmount(Integer id, Long value) {
+    public synchronized void addAmount(Integer id, Long value) {
+        addCount++;
         Long v = loadingCache.getUnchecked(id);
         if(v != null) {
-            value += v;
+            v += value;
         }
-        loadingCache.put(id,value);
+        else {
+            v = value;
+        }
+        loadingCache.put(id,v);
         tableWorker.addAmount(id,value);
     }
 }
