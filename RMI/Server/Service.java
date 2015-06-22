@@ -8,21 +8,25 @@ import java.rmi.server.UnicastRemoteObject;
 
 /*
 Собственно сам сервер.
+Здесь мы реализуем многопоточность и отсылку ответа клиенту.
  */
 
 public class Service implements AccountService {
 
-    public static final String BINDING_NAME = "sample/HelloService";
-    DataBaseReq tb = new DataBaseReq();
+    public static final String BINDING_NAME = "sample/Service";
+    AllDataReq adr = new AllDataReq();
 
-    public synchronized Long getAmount(Integer id) {
-        Long ans = tb.getAmount(id);
-        return ans;
+    public Long getAmount(Integer id) {
+        //return adr.getAmount(id);
+        return adr.getAmount(id);
     }
 
-    public synchronized void addAmount(Integer id, Long value) {
-        tb.addAmount(id, value);
+    public void addAmount(Integer id, Long value) {
+        //adr.addAmount(id, value);
+        adr.addAmount(id, value);
     }
+
+
 
 
     public static void main(String[] args) throws Exception {

@@ -34,11 +34,12 @@ public class DataBaseReq implements AccountService {
             res.next();
             result = res.getLong("val");
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println(0);
-        } finally {
+            System.err.println(e);
+            return result;
+        }finally {
             return result;
         }
+
     }
 
     public void addAmount(Integer id, Long value) {
@@ -48,8 +49,9 @@ public class DataBaseReq implements AccountService {
             add.setLong(2, value);
             add.setLong(3, value);
             add.execute();
+            System.out.println("added " + id + " " + value);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e);
         }
     }
 }
