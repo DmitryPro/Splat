@@ -3,6 +3,10 @@ package RMI.Server;
 /**
  * Created by marsik on 22.06.15.
  */
+
+/*
+выаваыва
+ */
 public class AllDataReq {
     CacheManager cm;
     DataBaseReq dbr;
