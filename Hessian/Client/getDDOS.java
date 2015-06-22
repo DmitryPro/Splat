@@ -1,11 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**
  * Created by ִלטענטי on 21.06.2015.
  */
-public class getDDOS extends Thread {
+public class GetDDOS extends Thread {
 
     public void run() {
         Random random = new Random();

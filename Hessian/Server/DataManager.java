@@ -15,9 +15,10 @@ public class DataManager extends HessianServlet implements AccountService{
             .concurrencyLevel(8)
             .expireAfterAccess(5L, TimeUnit.MINUTES)
             .maximumSize(1000L)
+            //If value not exist in cache then we try to find it in table
             .build(new CacheLoader<Integer, Long>() {
                 @Override
-                public Long load(Integer id) throws Exception {
+                public Long load(Integer id) {
                     return tableWorker.getAmount(id);
                 }
             });
@@ -42,19 +43,25 @@ public class DataManager extends HessianServlet implements AccountService{
 
     public Long getAmount(Integer id) {
         getCount++;
-        return loadingCache.getUnchecked(id);
+        try {
+            Long res = loadingCache.getUnchecked(id);
+            return res;
+        }
+        catch (NullPointerException e){
+            return 0L;
+        }
     }
 
     public synchronized void addAmount(Integer id, Long value) {
         addCount++;
-        Long v = loadingCache.getUnchecked(id);
-        if(v != null) {
-            v += value;
+        Long v;
+        try {
+            v = loadingCache.getUnchecked(id);
         }
-        else {
-            v = value;
+        catch (NullPointerException e) {
+            v = 0L;
         }
-        loadingCache.put(id,v);
+        loadingCache.put(id,v + value);
         tableWorker.addAmount(id,value);
     }
 }

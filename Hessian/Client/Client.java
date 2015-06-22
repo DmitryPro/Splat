@@ -20,12 +20,18 @@ public class Client {
 
     private static void readAttributes(String[] args) throws Exception{
         try {
+            //Read properties from file...
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream("attributes.txt")));
             bufferedReader.lines().forEach(line -> setAttributes(line));
+            //Bad. Ok. Let's try to read from arguments
             if(list == null)
                 throw new FileNotFoundException();
         } catch (FileNotFoundException e) {
-           setAttributes(args.toString());
+            StringBuilder s = new StringBuilder();
+            for (int i = 0; i < args.length; i++) {
+                s.append(args[i] + " ");
+            }
+           setAttributes(s.toString());
         }
         finally {
             if(list == null) {
@@ -45,10 +51,10 @@ public class Client {
                 writers = Integer.parseInt(stringTokenizer.nextToken());
             }
             if (token.equals("-idList")) {
-                StringTokenizer tokenizer = new StringTokenizer(stringTokenizer.nextToken(","));
+                StringTokenizer tokenizer = new StringTokenizer(stringTokenizer.nextToken());
                 list = new ArrayList<Integer>(tokenizer.countTokens());
                 while (tokenizer.hasMoreTokens()) {
-                    list.add(Integer.parseInt(tokenizer.nextToken()));
+                    list.add(Integer.parseInt(tokenizer.nextToken(",")));
                 }
             }
         }
@@ -57,12 +63,13 @@ public class Client {
     public static void main(String[] args) throws Exception{
         readAttributes(args);
         HessianProxyFactory factory =new HessianProxyFactory();
+        //Create a remote access
         accountService = (AccountService) factory.create(AccountService.class,"http://localhost:6969/service");
         for (int i = 0; i < readers; i++) {
-            new getDDOS().start();
+            new GetDDOS().start();
         }
         for (int i = 0; i < writers; i++) {
-            new addDDOS().start();
+            new AddDDOS().start();
         }
     }
 }

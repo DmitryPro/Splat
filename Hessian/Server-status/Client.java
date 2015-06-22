@@ -25,18 +25,20 @@ public class Client {
         }
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         String token;
+        System.out.println("Enter a command");
         while ((token = bufferedReader.readLine()) != null) {
             if (token.equals("all")) {
-                System.out.println("Count call all methods:" + statisticService.allStat());
+                System.out.println("Count call all methods: " + statisticService.allStat());
             } else if (token.equals("add")) {
-                System.out.println("Calls addAmount per minute:" + statisticService.addStat());
+                System.out.println("Calls addAmount per second: " + statisticService.addStat());
             } else if (token.equals("get")) {
-                System.out.println("Calls getAmount per minute" + statisticService.getStat());
+                System.out.println("Calls getAmount per second: " + statisticService.getStat());
             } else if (token.equals("clear")) {
                 System.out.println("Clearing stats ....");
                 statisticService.clear();
                 System.out.println("All stats clear");
             }
+            System.out.println("Enter a command");
         }
     }
 }
