@@ -1,5 +1,3 @@
-package RMI.Server;
-
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -7,39 +5,40 @@ import java.rmi.server.UnicastRemoteObject;
 
 
 /*
-Собственно сам сервер.
-Здесь мы реализуем многопоточность и отсылку ответа клиенту.
+Класс сервайса.
+После запуска сервера, запускается дополнительный тред с модулем статистики.
  */
 
 public class Service implements AccountService {
 
     public static final String BINDING_NAME = "sample/Service";
-    AllDataReq adr = new AllDataReq();
+    static DateReq dr = new DateReq();
 
     public Long getAmount(Integer id) {
-        //return adr.getAmount(id);
-        return adr.getAmount(id);
+        dr.incGetReq();
+        return dr.getAmount(id);
     }
 
-    public void addAmount(Integer id, Long value) {
-        //adr.addAmount(id, value);
-        adr.addAmount(id, value);
-    }
+    public void addAmount(final Integer id, final Long value) {
+        dr.incAddReq();
+        dr.addAmount(id, value);
 
+    }
 
 
 
     public static void main(String[] args) throws Exception {
-        final Registry registry = LocateRegistry.createRegistry(6969);
-        System.out.println(" OK");
-
+        System.out.println("Start Server");
         final AccountService service = new Service();
         Remote stub = UnicastRemoteObject.exportObject(service, 6969);
-
-        System.out.print("Binding service...");
+        final Registry registry = LocateRegistry.createRegistry(6969);
         registry.bind(BINDING_NAME, stub);
-        System.out.println(" OK");
-        System.out.print("Starting registry...");
+        System.out.println("OK");
+
+        System.out.println("Start StatisticsModule");
+        Thread stat = new Thread(new Statistic());
+        stat.start();
+        System.out.println("OK");
         while (true) {
             Thread.sleep(Integer.MAX_VALUE);
         }

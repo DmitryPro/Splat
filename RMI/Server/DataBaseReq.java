@@ -1,10 +1,10 @@
-package RMI.Server;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/*
+Здесь прописаны запросы к БД через preparedStatement.
+ */
 public class DataBaseReq implements AccountService {
 
     DataBaseConnection dbc;
@@ -14,6 +14,7 @@ public class DataBaseReq implements AccountService {
 
     private PreparedStatement get = null;
     private PreparedStatement add = null;
+
 
     DataBaseReq() {
         dbc = new DataBaseConnection();
@@ -32,17 +33,18 @@ public class DataBaseReq implements AccountService {
             get.setInt(1, id);
             ResultSet res = get.executeQuery();
             res.next();
-            result = res.getLong("val");
-        } catch (SQLException e) {
-            System.err.println(e);
+            result = res.getLong(1);
+            System.out.println("Return to client value: " + result);
             return result;
-        }finally {
+        } catch (SQLException e) {
+            System.out.println("Return to client value: " + result);
             return result;
         }
 
+
     }
 
-    public void addAmount(Integer id, Long value) {
+    public synchronized void addAmount(Integer id, Long value) {
         try {
             add = dbc.getDbConnection().prepareStatement(addRq);
             add.setInt(1, id);
@@ -54,4 +56,5 @@ public class DataBaseReq implements AccountService {
             System.err.println(e);
         }
     }
+
 }

@@ -1,5 +1,3 @@
-package RMI.Server;
-
 import com.mysql.fabric.jdbc.FabricMySQLDriver;
 
 import java.sql.Connection;
@@ -18,12 +16,12 @@ public class DataBaseConnection {
     private static final String PASSWORD = "root";
     private Connection dbConnection = null;
 
-    public DataBaseConnection(){
+    public DataBaseConnection() {
         try {
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
-            dbConnection = DriverManager.getConnection(URL,USER,PASSWORD);
-        } catch (SQLException e){
+            dbConnection = DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -31,7 +29,6 @@ public class DataBaseConnection {
     public Connection getDbConnection() {
         return dbConnection;
     }
-
 
 
 }

@@ -1,5 +1,3 @@
-package RMI.Client;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Random;
@@ -7,9 +5,9 @@ import java.util.Scanner;
 
 /*
 Параметры задаются при запуску
-args[0] - количество потоков на запись
-args[1] - количество потоков на чтение
-Далее если нам надо потоки взаимодействовали со списком,
+args[0] - количество потоков на чтение
+args[1] - количество потоков на запись
+Далее если нам надо потоки взаимодействовали id из диапазона,
 то мы задаем записываем в args[3] два числа через тире,
 где числа это начало и конец диапазона.
 Если же нам надо надо взаимодействовать с конкретными id значениями
@@ -64,14 +62,14 @@ public class MultiplyClient {
 
     static class AddThread implements Runnable {
         public void run() {
-            for (int i = 0; i < 10; i++) {
+            while(true) {
                 try {
                     Registry registry = LocateRegistry.getRegistry("localhost", 6969);
                     AccountService service = (AccountService) registry.lookup(BINDING_NAME);
                     Random rand = new Random();
                     int id = mas[rand.nextInt(mas.length)];
                     Long val = rand.nextLong() % 4000000;
-                    System.out.println("Request: add " + id + " " + val);
+                    System.out.println("Adding id: " + id + " value: " + val);
                     service.addAmount(id, val);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -82,13 +80,13 @@ public class MultiplyClient {
 
     static class GetThread implements Runnable {
         public void run() {
-            for (int i = 0; i < 10; i++) {
+            while(true) {
                 try {
                     Registry registry = LocateRegistry.getRegistry("localhost", 6969);
                     AccountService service = (AccountService) registry.lookup(BINDING_NAME);
                     Random rand = new Random();
-                    int id = mas[rand.nextInt(mas.length - 1)];
-                    System.out.println("Request: get " + id + ". Response:" + service.getAmount(id));
+                    int id = mas[rand.nextInt(mas.length)];
+                    System.out.println("Get value with id: " + id + ".  Response: " + service.getAmount(id));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
